@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CFwoot - WhatsApp Customer Support Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .slide {
+            min-height: 100vh;
+            scroll-snap-align: start;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .whatsapp-gradient {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+        }
+        
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .comparison-row:hover {
+            background: linear-gradient(90deg, #f3f4f6 0%, #e5e7eb 100%);
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-lg z-50 border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-2">
+                    <div class="w-10 h-10 whatsapp-gradient rounded-xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                        </svg>
+                    </div>
+                    <span class="text-xl font-bold">CFwoot</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#features" class="text-gray-600 hover:text-gray-900">Features</a>
+                    <a href="#comparison" class="text-gray-600 hover:text-gray-900">Compare</a>
+                    <a href="#pricing" class="text-gray-600 hover:text-gray-900">Pricing</a>
+                    <a href="#get-started" class="whatsapp-gradient text-white px-4 py-2 rounded-lg hover:opacity-90">Get Started Free</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Slide 1: Hero -->
+    <section class="slide flex items-center justify-center bg-gradient-to-br from-green-50 via-blue-50 to-purple-50 pt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+            <div class="inline-flex items-center px-4 py-2 bg-green-100 rounded-full mb-8">
+                <span class="w-2 h-2 bg-green-500 rounded-full mr-2 pulse"></span>
+                <span class="text-green-700 text-sm font-medium">100% Free Forever</span>
+            </div>
+            
+            <h1 class="text-5xl md:text-7xl font-bold text-gray-900 mb-6">
+                The <span class="whatsapp-gradient text-transparent bg-clip-text">WhatsApp</span> Customer Support Platform
+            </h1>
+            
+            <p class="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto">
+                Open-source alternative to DoubleTick & WATI. Build, automate, and scale your WhatsApp customer experience - <strong class="text-gray-900">completely free</strong>.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+                <a href="#get-started" class="whatsapp-gradient text-white px-8 py-4 rounded-xl text-lg font-semibold hover:opacity-90 transition">
+                    Start Free →
+                </a>
+                <a href="#features" class="bg-white text-gray-700 px-8 py-4 rounded-xl text-lg font-semibold border border-gray-200 hover:border-gray-300 transition">
+                    See Features
+                </a>
+            </div>
+            
+            <div class="grid grid-cols-3 gap-8 max-w-2xl mx-auto">
+                <div>
+                    <div class="text-3xl font-bold text-gray-900">$0</div>
+                    <div class="text-gray-600">Monthly Cost</div>
+                </div>
+                <div>
+                    <div class="text-3xl font-bold text-gray-900">5 min</div>
+                    <div class="text-gray-600">Setup Time</div>
+                </div>
+                <div>
+                    <div class="text-3xl font-bold text-gray-900">100%</div>
+                    <div class="text-gray-600">Self-hosted</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 2: Problem -->
+    <section class="slide flex items-center justify-center bg-white pt-16" id="problem">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">The Problem</h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">Existing WhatsApp platforms are expensive and lock your data</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-red-50 rounded-2xl p-8 border border-red-100">
+                    <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">DoubleTick: $141/month</h3>
+                    <p class="text-gray-600">Per user, per month. Adds up to $1,692/year for a small team.</p>
+                </div>
+                
+                <div class="bg-red-50 rounded-2xl p-8 border border-red-100">
+                    <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">WATI: $59/month</h3>
+                    <p class="text-gray-600">Limited features. AI costs extra. Per-message billing adds up.</p>
+                </div>
+                
+                <div class="bg-red-50 rounded-2xl p-8 border border-red-100">
+                    <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Data Lock-in</h3>
+                    <p class="text-gray-600">Your customer data lives on their servers. Can't export. Can't leave.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 3: Solution -->
+    <section class="slide flex items-center justify-center bg-gradient-to-br from-green-500 to-green-700 pt-16" id="features">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-white mb-4">The Solution: CFwoot</h2>
+                <p class="text-xl text-green-100 max-w-2xl mx-auto">All features. Zero cost. Your data stays yours.</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="glass rounded-2xl p-6 text-white">
+                    <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold mb-2">Unified Inbox</h3>
+                    <p class="text-green-100 text-sm">Manage all WhatsApp numbers from one place</p>
+                </div>
+                
+                <div class="glass rounded-2xl p-6 text-white">
+                    <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold mb-2">AI Assistant</h3>
+                    <p class="text-green-100 text-sm">Smart replies, summaries, intent detection</p>
+                </div>
+                
+                <div class="glass rounded-2xl p-6 text-white">
+                    <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold mb-2">Flow Builder</h3>
+                    <p class="text-green-100 text-sm">WhatsApp Flows 2.0 + No-code bots</p>
+                </div>
+                
+                <div class="glass rounded-2xl p-6 text-white">
+                    <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold mb-2">Broadcasts</h3>
+                    <p class="text-green-100 text-sm">Send to thousands, schedule campaigns</p>
+                </div>
+                
+                <div class="glass rounded-2xl p-6 text-white">
+                    <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold mb-2">E-commerce</h3>
+                    <p class="text-green-100 text-sm">Shopify & WooCommerce integration</p>
+                </div>
+                
+                <div class="glass rounded-2xl p-6 text-white">
+                    <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold mb-2">Team Management</h3>
+                    <p class="text-green-100 text-sm">Roles, SLA, performance tracking</p>
+                </div>
+                
+                <div class="glass rounded-2xl p-6 text-white">
+                    <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold mb-2">Real-time</h3>
+                    <p class="text-green-100 text-sm">WebSocket connections, live updates</p>
+                </div>
+                
+                <div class="glass rounded-2xl p-6 text-white">
+                    <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold mb-2">Secure</h3>
+                    <p class="text-green-100 text-sm">Your data, your servers, your control</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 4: Comparison -->
+    <section class="slide flex items-center justify-center bg-white pt-16" id="comparison">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Why CFwoot Wins</h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">Side-by-side comparison with the competition</p>
+            </div>
+            
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
+                <table class="w-full">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Feature</th>
+                            <th class="px-6 py-4 text-center text-sm font-semibold text-gray-900">DoubleTick</th>
+                            <th class="px-6 py-4 text-center text-sm font-semibold text-gray-900">WATI</th>
+                            <th class="px-6 py-4 text-center text-sm font-semibold text-green-600">CFwoot</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100">
+                        <tr class="comparison-row">
+                            <td class="px-6 py-4 text-sm text-gray-900 font-medium">Monthly Price</td>
+                            <td class="px-6 py-4 text-center text-sm text-red-600 font-semibold">$141+</td>
+                            <td class="px-6 py-4 text-center text-sm text-red-600 font-semibold">$59+</td>
+                            <td class="px-6 py-4 text-center text-sm text-green-600 font-bold">$0</td>
+                        </tr>
+                        <tr class="comparison-row">
+                            <td class="px-6 py-4 text-sm text-gray-900 font-medium">Setup Time</td>
+                            <td class="px-6 py-4 text-center text-sm text-gray-600">3-5 days</td>
+                            <td class="px-6 py-4 text-center text-sm text-gray-600">2-3 days</td>
+                            <td class="px-6 py-4 text-center text-sm text-green-600 font-semibold">5 minutes</td>
+                        </tr>
+                        <tr class="comparison-row">
+                            <td class="px-6 py-4 text-sm text-gray-900 font-medium">WhatsApp API</td>
+                            <td class="px-6 py-4 text-center text-green-500">✓</td>
+                            <td class="px-6 py-4 text-center text-green-500">✓</td>
+                            <td class="px-6 py-4 text-center text-green-500">✓</td>
+                        </tr>
+                        <tr class="comparison-row">
+                            <td class="px-6 py-4 text-sm text-gray-900 font-medium">Team Inbox</td>
+                            <td class="px-6 py-4 text-center text-green-500">✓</td>
+                            <td class="px-6 py-4 text-center text-green-500">✓</td>
+                            <td class="px-6 py-4 text-center text-green-500">✓</td>
+                        </tr>
+                        <tr class="comparison-row">
+                            <td class="px-6 py-4 text-sm text-gray-900 font-medium">AI Chatbot</td>
+                            <td class="px-6 py-4 text-center text-green-500">✓</td>
+                            <td class="px-6 py-4 text-center text-green-500">✓</td>
+                            <td class="px-6 py-4 text-center text-green-500">✓</td>
+                        </tr>
+                        <tr class="comparison-row">
+                            <td class="px-6 py-4 text-sm text-gray-900 font-medium">Broadcast</td>
+                            <td class="px-6 py-4 text-center text-green-500">✓</td>
+                            <td class="px-6 py-4 text-center text-green-500">✓</td>
+                            <td class="px-6 py-4 text-center text-green-500">✓</td>
+                        </tr>
+                        <tr class="comparison-row">
+                            <td class="px-6 py-4 text-sm text-gray-900 font-medium">WhatsApp Flows</td>
+                            <td class="px-6 py-4 text-center text-green-500">✓</td>
+                            <td class="px-6 py-4 text-center text-green-500">✓</td>
+                            <td class="px-6 py-4 text-center text-green-500">✓</td>
+                        </tr>
+                        <tr class="comparison-row">
+                            <td class="px-6 py-4 text-sm text-gray-900 font-medium">E-commerce</td>
+                            <td class="px-6 py-4 text-center text-green-500">✓</td>
+                            <td class="px-6 py-4 text-center text-green-500">✓</td>
+                            <td class="px-6 py-4 text-center text-green-500">✓</td>
+                        </tr>
+                        <tr class="comparison-row">
+                            <td class="px-6 py-4 text-sm text-gray-900 font-medium">Self-hosted</td>
+                            <td class="px-6 py-4 text-center text-red-500">✗</td>
+                            <td class="px-6 py-4 text-center text-red-500">✗</td>
+                            <td class="px-6 py-4 text-center text-green-500 font-bold">✓</td>
+                        </tr>
+                        <tr class="comparison-row">
+                            <td class="px-6 py-4 text-sm text-gray-900 font-medium">Data Privacy</td>
+                            <td class="px-6 py-4 text-center text-red-500">✗</td>
+                            <td class="px-6 py-4 text-center text-red-500">✗</td>
+                            <td class="px-6 py-4 text-center text-green-500 font-bold">✓</td>
+                        </tr>
+                        <tr class="comparison-row">
+                            <td class="px-6 py-4 text-sm text-gray-900 font-medium">Customization</td>
+                            <td class="px-6 py-4 text-center text-yellow-500">Limited</td>
+                            <td class="px-6 py-4 text-center text-yellow-500">Limited</td>
+                            <td class="px-6 py-4 text-center text-green-500 font-bold">Full</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 5: Pricing -->
+    <section class="slide flex items-center justify-center bg-gray-50 pt-16" id="pricing">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Simple Pricing</h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">You only pay for WhatsApp API usage (Meta's fees)</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <!-- Free Tier -->
+                <div class="bg-white rounded-2xl shadow-xl p-8 border-2 border-green-500 relative">
+                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                        <span class="whatsapp-gradient text-white px-4 py-1 rounded-full text-sm font-semibold">Recommended</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">CFwoot</h3>
+                    <div class="mb-6">
+                        <span class="text-5xl font-bold text-gray-900">$0</span>
+                        <span class="text-gray-600">/month</span>
+                    </div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center text-gray-700">
+                            <svg class="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Unlimited conversations
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <svg class="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Unlimited team members
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <svg class="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            AI features included
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <svg class="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Broadcast campaigns
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <svg class="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Self-hosted forever
+                        </li>
+                    </ul>
+                    <a href="#get-started" class="block text-center whatsapp-gradient text-white py-3 rounded-xl font-semibold hover:opacity-90">
+                        Get Started Free
+                    </a>
+                </div>
+                
+                <!-- DoubleTick -->
+                <div class="bg-white rounded-2xl shadow-lg p-8 opacity-75">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">DoubleTick</h3>
+                    <div class="mb-6">
+                        <span class="text-5xl font-bold text-gray-900">$141</span>
+                        <span class="text-gray-600">/month</span>
+                    </div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center text-gray-700">
+                            <svg class="w-5 h-5 text-gray-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Per-user pricing
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <svg class="w-5 h-5 text-gray-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Limited broadcasts
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <svg class="w-5 h-5 text-gray-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Cloud-hosted
+                        </li>
+                    </ul>
+                    <div class="text-center text-gray-500 py-3 border border-gray-200 rounded-xl">
+                        $1,692/year
+                    </div>
+                </div>
+                
+                <!-- WATI -->
+                <div class="bg-white rounded-2xl shadow-lg p-8 opacity-75">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">WATI</h3>
+                    <div class="mb-6">
+                        <span class="text-5xl font-bold text-gray-900">$59</span>
+                        <span class="text-gray-600">/month</span>
+                    </div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center text-gray-700">
+                            <svg class="w-5 h-5 text-gray-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Per-message billing
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <svg class="w-5 h-5 text-gray-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            AI costs extra
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <svg class="w-5 h-5 text-gray-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Cloud-hosted
+                        </li>
+                    </ul>
+                    <div class="text-center text-gray-500 py-3 border border-gray-200 rounded-xl">
+                        $708+/year
+                    </div>
+                </div>
+            </div>
+            
+            <p class="text-center text-gray-500 mt-8">
+                * You only pay Meta's WhatsApp Business Platform fees (conversation-based pricing)
+            </p>
+        </div>
+    </section>
+
+    <!-- Slide 6: Tech Stack -->
+    <section class="slide flex items-center justify-center bg-white pt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Built on Modern Tech</h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">Enterprise-grade infrastructure at zero cost</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-gray-50 rounded-2xl p-8 text-center">
+                    <div class="w-16 h-16 bg-orange-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <span class="text-2xl">☁️</span>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Cloudflare Workers</h3>
+                    <p class="text-gray-600 text-sm">Edge computing with zero cold starts</p>
+                </div>
+                
+                <div class="bg-gray-50 rounded-2xl p-8 text-center">
+                    <div class="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <span class="text-2xl">🗄️</span>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Turso Database</h3>
+                    <p class="text-gray-600 text-sm">Edge-distributed SQLite, 9GB free</p>
+                </div>
+                
+                <div class="bg-gray-50 rounded-2xl p-8 text-center">
+                    <div class="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <span class="text-2xl">🔐</span>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Better Auth</h3>
+                    <p class="text-gray-600 text-sm">Secure, modern authentication</p>
+                </div>
+                
+                <div class="bg-gray-50 rounded-2xl p-8 text-center">
+                    <div class="w-16 h-16 bg-purple-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <span class="text-2xl">⚡</span>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Hono Framework</h3>
+                    <p class="text-gray-600 text-sm">Ultrafast web framework</p>
+                </div>
+                
+                <div class="bg-gray-50 rounded-2xl p-8 text-center">
+                    <div class="w-16 h-16 bg-pink-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <span class="text-2xl">🎨</span>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Vue.js 3</h3>
+                    <p class="text-gray-600 text-sm">Reactive, fast frontend</p>
+                </div>
+                
+                <div class="bg-gray-50 rounded-2xl p-8 text-center">
+                    <div class="w-16 h-16 bg-cyan-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <span class="text-2xl">🔄</span>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Durable Objects</h3>
+                    <p class="text-gray-600 text-sm">Real-time WebSocket connections</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 7: Get Started -->
+    <section class="slide flex items-center justify-center bg-gradient-to-br from-green-600 to-blue-600 pt-16" id="get-started">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+            <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">Ready to Get Started?</h2>
+            <p class="text-xl text-white/80 mb-12 max-w-2xl mx-auto">
+                Deploy your own WhatsApp customer support platform in 5 minutes
+            </p>
+            
+            <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-8 mb-12 text-left">
+                <h3 class="text-xl font-semibold text-white mb-4">Quick Start</h3>
+                <div class="bg-gray-900 rounded-xl p-4 font-mono text-sm">
+                    <div class="text-green-400">$ git clone https://github.com/satishskid/cfwoot.git</div>
+                    <div class="text-green-400">$ cd cfwoot</div>
+                    <div class="text-green-400">$ ./setup.sh</div>
+                    <div class="text-gray-500"># Follow the interactive prompts</div>
+                    <div class="text-green-400">$ ./deploy.sh</div>
+                    <div class="text-gray-500"># Your platform is now live!</div>
+                </div>
+            </div>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="https://github.com/satishskid/cfwoot" class="bg-white text-green-600 px-8 py-4 rounded-xl text-lg font-semibold hover:bg-gray-100 transition">
+                    View on GitHub →
+                </a>
+                <a href="https://github.com/satishskid/cfwoot/issues" class="border border-white text-white px-8 py-4 rounded-xl text-lg font-semibold hover:bg-white/10 transition">
+                    Report Issue
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 8: Thank You -->
+    <section class="slide flex items-center justify-center bg-gray-900 pt-16">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+            <div class="w-20 h-20 whatsapp-gradient rounded-2xl flex items-center justify-center mx-auto mb-8">
+                <svg class="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                </svg>
+            </div>
+            
+            <h2 class="text-4xl font-bold text-white mb-6">Thank You</h2>
+            <p class="text-xl text-gray-400 mb-8 max-w-2xl mx-auto">
+                Join the open-source WhatsApp revolution. Build, customize, and own your customer support platform.
+            </p>
+            
+            <div class="grid md:grid-cols-3 gap-6 mb-12">
+                <div class="bg-gray-800 rounded-xl p-6">
+                    <div class="text-2xl font-bold text-white mb-1">GitHub</div>
+                    <div class="text-gray-400">satishskid/cfwoot</div>
+                </div>
+                <div class="bg-gray-800 rounded-xl p-6">
+                    <div class="text-2xl font-bold text-white mb-1">Stars</div>
+                    <div class="text-gray-400">⭐ Star us on GitHub</div>
+                </div>
+                <div class="bg-gray-800 rounded-xl p-6">
+                    <div class="text-2xl font-bold text-white mb-1">Community</div>
+                    <div class="text-gray-400">Join the discussion</div>
+                </div>
+            </div>
+            
+            <p class="text-gray-500 text-sm">
+                Made with ❤️ by the open-source community
+            </p>
+        </div>
+    </section>
+
+    <!-- Scroll indicator -->
+    <div class="fixed bottom-8 right-8 bg-white rounded-full shadow-lg p-3 cursor-pointer hover:bg-gray-50" onclick="window.scrollBy(0, window.innerHeight)">
+        <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+        </svg>
+    </div>
+</body>
+</html>
