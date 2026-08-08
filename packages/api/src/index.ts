@@ -7,6 +7,12 @@ import { conversationRoutes } from "./routes/conversations.routes";
 import { contactRoutes } from "./routes/contacts.routes";
 import { messageRoutes } from "./routes/messages.routes";
 import { whatsappRoutes } from "./routes/whatsapp.routes";
+import { aiRoutes } from "./routes/ai.routes";
+import { flowRoutes } from "./routes/flows.routes";
+import { botRoutes } from "./routes/bots.routes";
+import { broadcastRoutes } from "./routes/broadcasts.routes";
+import { ecommerceRoutes } from "./routes/ecommerce.routes";
+import { teamRoutes, slaRoutes } from "./routes/teams.routes";
 
 export interface Env {
   TURSO_DATABASE_URL: string;
@@ -41,6 +47,13 @@ app.route("/api/v1/conversations", conversationRoutes);
 app.route("/api/v1/contacts", contactRoutes);
 app.route("/api/v1/messages", messageRoutes);
 app.route("/api/v1/whatsapp", whatsappRoutes);
+app.route("/api/v1/ai", aiRoutes);
+app.route("/api/v1/flows", flowRoutes);
+app.route("/api/v1/bots", botRoutes);
+app.route("/api/v1/broadcasts", broadcastRoutes);
+app.route("/api/v1/ecommerce", ecommerceRoutes);
+app.route("/api/v1/teams", teamRoutes);
+app.route("/api/v1/sla", slaRoutes);
 
 // Health check
 app.get("/health", (c) => c.json({ status: "ok", timestamp: new Date().toISOString() }));
