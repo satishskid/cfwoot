@@ -1,0 +1,10 @@
+export { accounts } from "./accounts";
+export { users } from "./users";
+export { sessions } from "./sessions";
+export { accountsUsers } from "./accounts-users";
+export { contacts } from "./contacts";
+export { conversations } from "./conversations";
+export { messages } from "./messages";
+export { inboxes } from "./inboxes";
+export { channelWhatsapp } from "./channels";
+export { whatsappTemplates } from "./whatsapp-templates";

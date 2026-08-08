@@ -1,0 +1,29 @@
+{
+  "name": "chatwoot-cf",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Cloudflare-native Chatwoot - WhatsApp-first customer support platform",
+  "scripts": {
+    "dev": "concurrently \"pnpm --filter api dev\" \"pnpm --filter dashboard dev\" \"pnpm --filter realtime dev\" \"pnpm --filter whatsapp-webhook dev\"",
+    "build": "pnpm --filter dashboard build && pnpm --filter widget-sdk build",
+    "deploy": "pnpm deploy:api && pnpm deploy:realtime && pnpm deploy:webhook && pnpm deploy:dashboard",
+    "deploy:api": "pnpm --filter api deploy",
+    "deploy:realtime": "pnpm --filter realtime deploy",
+    "deploy:webhook": "pnpm --filter whatsapp-webhook deploy",
+    "deploy:dashboard": "pnpm --filter dashboard deploy",
+    "db:generate": "pnpm --filter api db:generate",
+    "db:migrate": "pnpm --filter api db:migrate",
+    "db:push": "pnpm --filter api db:push",
+    "typecheck": "turbo typecheck",
+    "lint": "turbo lint"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.0",
+    "turbo": "^2.2.0",
+    "typescript": "^5.6.0"
+  },
+  "packageManager": "pnpm@9.12.0",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

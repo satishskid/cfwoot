@@ -1,0 +1,14 @@
+{
+  "name": "widget-sdk",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsup src/widget.ts --format iife --out-dir dist --minify",
+    "dev": "tsup src/widget.ts --format iife --out-dir dist --watch"
+  },
+  "devDependencies": {
+    "tsup": "^8.0.0",
+    "typescript": "^5.6.0"
+  }
+}
