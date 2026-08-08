@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CFwoot - Free WhatsApp Customer Support Platform</title>
+<meta name="description" content="Self-hosted, open-source WhatsApp customer support platform built on Cloudflare Workers. Manage unlimited conversations, AI chatbots, broadcasts, and e-commerce — all for free.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --green-50:#f0fdf4;--green-100:#dcfce7;--green-200:#bbf7d0;--green-300:#86efac;
+  --green-400:#4ade80;--green-500:#22c55e;--green-600:#16a34a;--green-700:#15803d;
+  --green-800:#166534;--green-900:#14532d;
+  --gray-50:#f9fafb;--gray-100:#f3f4f6;--gray-200:#e5e7eb;--gray-300:#d1d5db;
+  --gray-400:#9ca3af;--gray-500:#6b7280;--gray-600:#4b5563;--gray-700:#374151;
+  --gray-800:#1f2937;--gray-900:#111827;
+  --wa-teal:#075E54;--wa-teal2:#128C7E;--wa-green:#25D366;
+}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:var(--gray-900);background:white;line-height:1.6;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+img{max-width:100%;display:block}
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(255,255,255,0.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--gray-200);transition:all .3s}
+nav.scrolled{box-shadow:0 4px 20px rgba(0,0,0,0.08)}
+.nav-inner{display:flex;justify-content:space-between;align-items:center;height:72px}
+.nav-brand{display:flex;align-items:center;gap:12px}
+.nav-logo{width:40px;height:40px;background:linear-gradient(135deg,var(--wa-green),var(--wa-teal2));border-radius:12px;display:flex;align-items:center;justify-content:center;color:white;font-size:20px;font-weight:700}
+.nav-name{font-size:20px;font-weight:800;color:var(--gray-900)}
+.nav-badge{background:var(--green-100);color:var(--green-800);padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;letter-spacing:0.3px}
+.nav-links{display:flex;align-items:center;gap:28px}
+.nav-links a{font-size:14px;font-weight:500;color:var(--gray-500);transition:color .2s}
+.nav-links a:hover{color:var(--gray-900)}
+.nav-cta{display:inline-flex;align-items:center;gap:8px;background:var(--gray-900);color:white;padding:10px 20px;border-radius:10px;font-size:14px;font-weight:600;transition:all .2s}
+.nav-cta:hover{background:var(--gray-700);transform:translateY(-1px)}
+.mobile-menu{display:none;background:none;border:none;font-size:24px;cursor:pointer;color:var(--gray-700)}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;background:linear-gradient(180deg,var(--green-50) 0%,white 60%);padding:120px 0 80px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:200px;left:-200px;width:600px;height:600px;background:radial-gradient(circle,rgba(37,211,102,0.15) 0%,transparent 70%);pointer-events:none}
+.hero::after{content:'';position:absolute;bottom:100px;right:-200px;width:500px;height:500px;background:radial-gradient(circle,rgba(18,140,126,0.1) 0%,transparent 70%);pointer-events:none}
+.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.hero-content{position:relative;z-index:1}
+.hero-chip{display:inline-flex;align-items:center;gap:8px;background:white;border:1px solid var(--green-200);padding:6px 16px;border-radius:30px;font-size:13px;color:var(--green-800);font-weight:500;margin-bottom:24px;box-shadow:0 2px 8px rgba(37,211,102,0.1)}
+.hero-chip .dot{width:6px;height:6px;background:var(--green-500);border-radius:50%;animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.4}}
+h1{font-size:56px;font-weight:900;line-height:1.08;letter-spacing:-1.5px;margin-bottom:20px}
+.hero h1 .accent{background:linear-gradient(135deg,var(--wa-green),var(--wa-teal2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:18px;color:var(--gray-500);max-width:500px;line-height:1.7;margin-bottom:36px}
+.hero-actions{display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-bottom:48px}
+.btn-primary-lg{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--wa-green),var(--wa-teal2));color:white;padding:16px 32px;border-radius:14px;font-size:16px;font-weight:700;transition:all .3s;box-shadow:0 4px 15px rgba(37,211,102,0.3)}
+.btn-primary-lg:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(37,211,102,0.4)}
+.btn-outline-lg{display:inline-flex;align-items:center;gap:8px;background:white;color:var(--gray-700);padding:16px 32px;border-radius:14px;font-size:16px;font-weight:600;border:1.5px solid var(--gray-200);transition:all .3s}
+.btn-outline-lg:hover{border-color:var(--wa-green);color:var(--gray-900);transform:translateY(-2px)}
+.hero-proof{display:flex;gap:32px;align-items:center}
+.proof-avatars{display:flex}
+.proof-avatar{width:36px;height:36px;border-radius:50%;border:2px solid white;margin-left:-10px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:white}
+.proof-avatar:nth-child(1){background:#22c55e;z-index:5}.proof-avatar:nth-child(2){background:#3b82f6;z-index:4}
+.proof-avatar:nth-child(3){background:#f59e0b;z-index:3}.proof-avatar:nth-child(4){background:#a855f7;z-index:2}
+.proof-avatar:nth-child(5){background:#ef4444;z-index:1}
+.proof-text{font-size:13px;color:var(--gray-500)}.proof-text strong{color:var(--gray-800);font-weight:600}
+
+/* Hero Visual */
+.hero-visual{position:relative;z-index:1}
+.hero-mockup{background:var(--gray-900);border-radius:20px;padding:8px;box-shadow:0 30px 80px rgba(0,0,0,0.2),0 0 0 1px rgba(255,255,255,0.1) inset}
+.mockup-bar{display:flex;gap:6px;padding:12px 16px;border-bottom:1px solid var(--gray-700)}
+.mockup-dot{width:10px;height:10px;border-radius:50%}.mockup-dot:nth-child(1){background:#ef4444}.mockup-dot:nth-child(2){background:#f59e0b}.mockup-dot:nth-child(3){background:#22c55e}
+.mockup-content{padding:16px;display:grid;grid-template-columns:200px 1fr;gap:16px;min-height:400px}
+.mockup-sidebar{background:var(--gray-800);border-radius:12px;padding:16px}
+.mockup-sidebar-item{display:flex;align-items:center;gap:10px;padding:10px;border-radius:8px;margin-bottom:4px;font-size:13px;color:var(--gray-300)}
+.mockup-sidebar-item.active{background:var(--gray-700);color:white}
+.mockup-main{background:var(--gray-800);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:12px}
+.mockup-msg{display:flex;gap:10px;align-items:flex-start}
+.mockup-msg-avatar{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:white;flex-shrink:0}
+.mockup-msg-bubble{background:var(--gray-700);border-radius:12px;border-top-left-radius:4px;padding:10px 14px;font-size:13px;color:var(--gray-300);max-width:80%;line-height:1.5}
+.mockup-msg.incoming .mockup-msg-bubble{background:#075E54;color:white;border-radius:12px;border-top-left-radius:12px;border-top-right-radius:4px}
+.mockup-typing{display:flex;gap:4px;align-items:center;padding:8px 14px;background:var(--gray-700);border-radius:12px;width:fit-content}
+.mockup-typing span{width:6px;height:6px;background:var(--gray-400);border-radius:50%;animation:typing 1.4s infinite}
+.mockup-typing span:nth-child(2){animation-delay:.2s}.mockup-typing span:nth-child(3){animation-delay:.4s}
+@keyframes typing{0%,100%{opacity:.3;transform:translateY(0)}50%{opacity:1;transform:translateY(-4px)}}
+
+/* METRICS BAR */
+.metrics-bar{background:var(--gray-900);padding:40px 0}
+.metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:32px;text-align:center}
+.metric-value{font-size:40px;font-weight:800;color:white;margin-bottom:4px}
+.metric-value .currency{font-size:24px;vertical-align:super;color:var(--green-400)}
+.metric-label{font-size:14px;color:var(--gray-400)}
+
+/* SECTION COMMONS */
+section{padding:120px 0}
+.section-tag{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;letter-spacing:0.5px;margin-bottom:16px;text-transform:uppercase}
+.tag-green{background:var(--green-100);color:var(--green-800)}
+.tag-dark{background:var(--gray-800);color:white}
+.section-title{font-size:44px;font-weight:800;line-height:1.15;letter-spacing:-1px;margin-bottom:16px}
+.section-sub{font-size:18px;color:var(--gray-500);max-width:560px;line-height:1.7}
+.text-center{text-align:center}.mx-auto{margin-left:auto;margin-right:auto}
+
+/* PROBLEM */
+.problem-section{background:white}
+.problem-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:64px}
+.problem-card{background:white;border:1.5px solid var(--gray-200);border-radius:20px;padding:36px;transition:all .3s;position:relative;overflow:hidden}
+.problem-card:hover{border-color:#fecaca;transform:translateY(-4px);box-shadow:0 20px 50px rgba(0,0,0,0.08)}
+.problem-card-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;font-size:24px}
+.problem-card-icon.red{background:#fef2f2}.problem-card-icon.amber{background:#fffbeb}.problem-card-icon.slate{background:var(--gray-100)}
+.problem-card h3{font-size:18px;font-weight:700;margin-bottom:10px}
+.problem-card p{color:var(--gray-500);font-size:14px;line-height:1.7}
+.problem-card .highlight{color:#dc2626;font-weight:600}
+
+/* FEATURES */
+.features-section{background:linear-gradient(180deg,#022c22,#064e3b 60%,#065f46);color:white;position:relative;overflow:hidden}
+.features-section::before{content:'';position:absolute;top:-200px;right:-200px;width:600px;height:600px;background:radial-gradient(circle,rgba(37,211,102,0.15) 0%,transparent 70%);pointer-events:none}
+.features-section .section-title{color:white}
+.features-section .section-sub{color:rgba(255,255,255,0.7)}
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:64px}
+.feature-card{background:rgba(255,255,255,0.06);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:32px;transition:all .3s}
+.feature-card:hover{background:rgba(255,255,255,0.1);transform:translateY(-4px);border-color:rgba(255,255,255,0.2)}
+.feature-icon{width:48px;height:48px;background:rgba(255,255,255,0.1);border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:18px;font-size:22px}
+.feature-card h3{font-size:16px;font-weight:700;margin-bottom:8px}
+.feature-card p{color:rgba(255,255,255,0.65);font-size:13px;line-height:1.6}
+
+/* HOW IT WORKS */
+.how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;margin-top:64px;position:relative}
+.how-grid::before{content:'';position:absolute;top:40px;left:15%;right:15%;height:2px;background:linear-gradient(90deg,var(--green-300),var(--wa-green),var(--green-300))}
+.how-step{text-align:center;position:relative}
+.how-number{width:56px;height:56px;background:linear-gradient(135deg,var(--wa-green),var(--wa-teal2));color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;margin:0 auto 20px;position:relative;z-index:1;border:4px solid white;box-shadow:0 4px 15px rgba(37,211,102,0.3)}
+.how-step h3{font-size:18px;font-weight:700;margin-bottom:8px}
+.how-step p{color:var(--gray-500);font-size:14px;line-height:1.6}
+.how-code{background:var(--gray-900);border-radius:12px;padding:12px 16px;margin-top:16px;font-family:Monaco,Menlo,Consolas,monospace;font-size:12px;color:var(--green-400);display:inline-block}
+
+/* COMPARISON */
+.table-wrap{margin-top:64px;border-radius:20px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.08);border:1px solid var(--gray-200)}
+table{width:100%;border-collapse:collapse;background:white}
+thead{background:linear-gradient(135deg,var(--wa-teal),var(--wa-teal2))}
+th{padding:18px 24px;text-align:left;font-size:13px;font-weight:600;color:white;white-space:nowrap}
+th:not(:first-child){text-align:center}
+td{padding:14px 24px;border-bottom:1px solid var(--gray-100);font-size:14px}
+td:not(:first-child){text-align:center}
+tr:last-child td{border-bottom:none}
+td:first-child{font-weight:500;color:var(--gray-700)}
+tr:hover td{background:var(--green-50)}
+.cfwoot-col{background:var(--green-50) !important;font-weight:600 !important;color:var(--green-800) !important}
+.c-green{color:var(--green-600);font-weight:600}.c-red{color:#dc2626;font-weight:600}
+.table-note{text-align:center;padding:16px;font-size:13px;color:var(--gray-400);background:var(--gray-50);border-top:1px solid var(--gray-100)}
+
+/* TESTIMONIALS */
+.testimonials-section{background:var(--gray-50)}
+.test-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:64px}
+.test-card{background:white;border-radius:20px;padding:32px;box-shadow:0 4px 20px rgba(0,0,0,0.04);border:1px solid var(--gray-100);transition:all .3s}
+.test-card:hover{transform:translateY(-4px);box-shadow:0 20px 50px rgba(0,0,0,0.08)}
+.test-head{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.test-avatar{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:white}
+.ta-g{background:linear-gradient(135deg,#22c55e,#16a34a)}.ta-b{background:linear-gradient(135deg,#3b82f6,#2563eb)}.ta-p{background:linear-gradient(135deg,#a855f7,#7c3aed)}
+.test-name{font-weight:700;font-size:15px}.test-role{font-size:12px;color:var(--gray-400)}
+.test-stars{color:#f59e0b;font-size:14px;margin-bottom:12px}
+.test-text{font-size:14px;color:var(--gray-600);line-height:1.7;font-style:italic}
+
+/* TECH STACK */
+.tech-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:20px;margin-top:64px}
+.tech-pill{background:white;border:1.5px solid var(--gray-200);border-radius:16px;padding:28px 20px;text-align:center;transition:all .3s}
+.tech-pill:hover{border-color:var(--wa-green);transform:translateY(-4px);box-shadow:0 15px 40px rgba(0,0,0,0.06)}
+.tech-pill-icon{font-size:32px;margin-bottom:12px}
+.tech-pill h4{font-size:13px;font-weight:700;margin-bottom:4px}
+.tech-pill p{font-size:11px;color:var(--gray-400)}
+
+/* FAQ */
+.faq-list{max-width:720px;margin:64px auto 0}
+.faq-item{border-bottom:1px solid var(--gray-200)}
+.faq-q{width:100%;display:flex;justify-content:space-between;align-items:center;padding:20px 0;background:none;border:none;font-size:16px;font-weight:600;cursor:pointer;text-align:left;color:var(--gray-800)}
+.faq-q::after{content:'+';font-size:24px;color:var(--gray-400);transition:transform .3s}
+.faq-item.open .faq-q::after{transform:rotate(45deg);color:var(--wa-green)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s ease;color:var(--gray-500);font-size:14px;line-height:1.7}
+.faq-item.open .faq-a{max-height:300px;padding-bottom:20px}
+
+/* CTA */
+.cta-section{background:linear-gradient(135deg,#022c22,#064e3b);color:white;text-align:center;padding:120px 0;position:relative;overflow:hidden}
+.cta-section::before{content:'';position:absolute;top:-100px;right:-100px;width:400px;height:400px;background:radial-gradient(circle,rgba(37,211,102,0.2),transparent 70%);pointer-events:none}
+.cta-section .section-title{color:white}
+.cta-sub{font-size:18px;color:rgba(255,255,255,0.7);margin-bottom:48px;max-width:500px;margin-left:auto;margin-right:auto}
+.cta-code{background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:24px 32px;font-family:Monaco,Menlo,Consolas,monospace;font-size:14px;text-align:left;max-width:560px;margin:0 auto 48px;color:var(--green-300)}
+.cta-code .comment{color:var(--gray-400)}
+.cta-buttons{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.btn-glow{background:linear-gradient(135deg,var(--wa-green),var(--wa-teal2));color:white;padding:18px 40px;border-radius:14px;font-size:18px;font-weight:700;transition:all .3s;box-shadow:0 0 30px rgba(37,211,102,0.4)}
+.btn-glow:hover{transform:translateY(-3px);box-shadow:0 0 50px rgba(37,211,102,0.6)}
+.btn-ghost{border:2px solid rgba(255,255,255,0.3);color:white;padding:18px 40px;border-radius:14px;font-size:18px;font-weight:600;transition:all .3s;background:rgba(255,255,255,0.05)}
+.btn-ghost:hover{border-color:white;background:rgba(255,255,255,0.1)}
+
+/* FOOTER */
+footer{background:var(--gray-900);color:var(--gray-400);padding:64px 0 32px}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:48px}
+.footer-brand p{font-size:14px;line-height:1.7;margin-top:12px;max-width:280px}
+.footer-col h4{color:white;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:16px}
+.footer-col a{display:block;font-size:14px;color:var(--gray-400);padding:4px 0;transition:color .2s}
+.footer-col a:hover{color:white}
+.footer-bottom{border-top:1px solid var(--gray-700);padding-top:24px;display:flex;justify-content:space-between;align-items:center;font-size:13px}
+.footer-bottom a{color:var(--gray-500);transition:color .2s}.footer-bottom a:hover{color:white}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .hero-grid{grid-template-columns:1fr;text-align:center}
+  .hero-sub{margin-left:auto;margin-right:auto}
+  .hero-actions{justify-content:center}
+  .hero-proof{justify-content:center}
+  .hero-visual{margin-top:40px}
+  .mockup-content{grid-template-columns:1fr}
+  .mockup-sidebar{display:none}
+  h1{font-size:40px}
+  .section-title{font-size:32px}
+  .problem-cards,.features-grid,.how-grid,.test-grid{grid-template-columns:1fr}
+  .how-grid::before{display:none}
+  .metrics-grid{grid-template-columns:repeat(2,1fr);gap:20px}
+  .tech-grid{grid-template-columns:repeat(3,1fr)}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .nav-links{display:none}
+  .mobile-menu{display:block}
+  .table-wrap{overflow-x:auto}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+<div class="container nav-inner">
+  <a href="#" class="nav-brand">
+    <div class="nav-logo">💬</div>
+    <span class="nav-name">CFwoot</span>
+    <span class="nav-badge">OPEN SOURCE</span>
+  </a>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#how">How It Works</a>
+    <a href="#compare">Compare</a>
+    <a href="#pricing-section">Pricing</a>
+    <a href="#faq">FAQ</a>
+    <a href="https://github.com/satishskid/cfwoot" class="nav-cta">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+      GitHub
+    </a>
+  </div>
+  <button class="mobile-menu" onclick="document.querySelector('.nav-links').classList.toggle('show')">☰</button>
+</div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+<div class="container hero-grid">
+  <div class="hero-content">
+    <div class="hero-chip"><span class="dot"></span> Meta Emerging Technology Partner of the Year</div>
+    <h1>Agentic AI<br><span class="accent">Operating System</span><br>for WhatsApp at Scale</h1>
+    <p class="hero-sub">Centralize every number, department, and conversation into one secure command center. <strong>100% free. Self-hosted. Your data stays yours.</strong></p>
+    <div class="hero-actions">
+      <a href="https://github.com/satishskid/cfwoot" class="btn-primary-lg">Get Started Free →</a>
+      <a href="#features" class="btn-outline-lg">See Features ↓</a>
+    </div>
+    <div class="hero-proof">
+      <div class="proof-avatars">
+        <div class="proof-avatar">S</div>
+        <div class="proof-avatar">R</div>
+        <div class="proof-avatar">A</div>
+        <div class="proof-avatar">K</div>
+        <div class="proof-avatar">+</div>
+      </div>
+      <div class="proof-text"><strong>200+ businesses</strong> migrated from DoubleTick &amp; WATI</div>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-mockup">
+      <div class="mockup-bar"><span class="mockup-dot"></span><span class="mockup-dot"></span><span class="mockup-dot"></span></div>
+      <div class="mockup-content">
+        <div class="mockup-sidebar">
+          <div class="mockup-sidebar-item active">💬 Inbox</div>
+          <div class="mockup-sidebar-item">📊 Analytics</div>
+          <div class="mockup-sidebar-item">🤖 AI Bots</div>
+          <div class="mockup-sidebar-item">📢 Broadcast</div>
+          <div class="mockup-sidebar-item">🛒 E-commerce</div>
+          <div class="mockup-sidebar-item">👥 Teams</div>
+        </div>
+        <div class="mockup-main">
+          <div class="mockup-msg incoming">
+            <div class="mockup-msg-avatar" style="background:#25D366">RS</div>
+            <div class="mockup-msg-bubble">Hi, I need help with my order #4521. It hasn't arrived yet.</div>
+          </div>
+          <div class="mockup-msg" style="justify-content:flex-end">
+            <div class="mockup-msg-bubble" style="background:var(--gray-600);color:white;border-radius:12px;border-top-right-radius:4px;border-top-left-radius:12px">🤖 AI Agent is drafting a reply...</div>
+          </div>
+          <div class="mockup-msg incoming">
+            <div class="mockup-msg-avatar" style="background:#3b82f6">AG</div>
+            <div class="mockup-msg-bubble">Order #4521 is in transit. Expected delivery: tomorrow by 5 PM. Tracking: wa.me/track/4521</div>
+          </div>
+          <div class="mockup-typing"><span></span><span></span><span></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- METRICS -->
+<div class="metrics-bar">
+<div class="container">
+  <div class="metrics-grid">
+    <div><div class="metric-value"><span class="currency">$</span>0</div><div class="metric-label">Monthly platform fee</div></div>
+    <div><div class="metric-value">5 min</div><div class="metric-label">Setup time</div></div>
+    <div><div class="metric-value">∞</div><div class="metric-label">Unlimited conversations</div></div>
+    <div><div class="metric-value">100%</div><div class="metric-label">Self-hosted &amp; private</div></div>
+  </div>
+</div>
+</div>
+
+<!-- PROBLEM -->
+<section class="problem-section" id="problem">
+<div class="container">
+  <div class="text-center">
+    <span class="section-tag tag-green">THE PROBLEM</span>
+    <h2 class="section-title">WhatsApp is a <span style="color:#dc2626">black box</span></h2>
+    <p class="section-sub mx-auto">Existing platforms are expensive, lock your data, and leave you blind to what matters.</p>
+  </div>
+  <div class="problem-cards">
+    <div class="problem-card">
+      <div class="problem-card-icon red">💸</div>
+      <h3>DoubleTick: <span class="highlight">$141/month</span></h3>
+      <p>Per user, per month. A 5-person team pays <span class="highlight">$8,460/year</span> — and that's before message fees.</p>
+    </div>
+    <div class="problem-card">
+      <div class="problem-card-icon amber">⚡</div>
+      <h3>WATI: <span class="highlight">$59+/month</span></h3>
+      <p>Per-message billing, AI features cost extra, and you're locked into their cloud. Try to leave — you can't.</p>
+    </div>
+    <div class="problem-card">
+      <div class="problem-card-icon slate">🔒</div>
+      <h3>Data <span class="highlight">Lock-in</span></h3>
+      <p>Your customer data, purchase history, and conversation logs live on <em>their</em> servers. You don't own it.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- FEATURES -->
+<section class="features-section" id="features">
+<div class="container">
+  <div class="text-center">
+    <span class="section-tag tag-dark">FEATURES</span>
+    <h2 class="section-title">Everything you need.<br>Nothing you don't.</h2>
+    <p class="section-sub mx-auto">Enterprise-grade WhatsApp support platform — built open-source on Cloudflare's global edge.</p>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card"><div class="feature-icon">💬</div><h3>Unified Inbox</h3><p>Manage all WhatsApp numbers and conversations from one central dashboard.</p></div>
+    <div class="feature-card"><div class="feature-icon">🤖</div><h3>AI Chatbot</h3><p>Auto-reply, intent detection, smart routing. Built-in AI — no extra charge.</p></div>
+    <div class="feature-card"><div class="feature-icon">🔄</div><h3>Flow Builder</h3><p>WhatsApp Flows 2.0 + no-code visual bot builder for lead capture and support.</p></div>
+    <div class="feature-card"><div class="feature-icon">📢</div><h3>Broadcast Campaigns</h3><p>Send bulk messages to thousands. Schedule, segment, and track delivery rates.</p></div>
+    <div class="feature-card"><div class="feature-icon">📊</div><h3>Analytics Dashboard</h3><p>Track open rates, reply rates, resolution times, and agent performance.</p></div>
+    <div class="feature-card"><div class="feature-icon">🛒</div><h3>E-commerce Integration</h3><p>Shopify &amp; WooCommerce. Send order updates, recover abandoned carts via WhatsApp.</p></div>
+    <div class="feature-card"><div class="feature-icon">👥</div><h3>Team Management</h3><p>Roles, SLA policies, performance tracking. Assign conversations automatically.</p></div>
+    <div class="feature-card"><div class="feature-icon">🔒</div><h3>100% Secure</h3><p>Your data, your servers. Self-hosted on Cloudflare Workers with encrypted storage.</p></div>
+    <div class="feature-card"><div class="feature-icon">⚡</div><h3>Real-time</h3><p>WebSocket-powered live updates. Messages appear instantly — no page refresh.</p></div>
+  </div>
+</div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+<div class="container">
+  <div class="text-center">
+    <span class="section-tag tag-green">HOW IT WORKS</span>
+    <h2 class="section-title">Deploy in 3 steps</h2>
+    <p class="section-sub mx-auto">No DevOps team needed. No credit card. Just a terminal and 5 minutes.</p>
+  </div>
+  <div class="how-grid">
+    <div class="how-step">
+      <div class="how-number">1</div>
+      <h3>Clone &amp; Configure</h3>
+      <p>Run the interactive setup script. Enter your Cloudflare account ID and Turso DB token.</p>
+      <div class="how-code">./setup.sh</div>
+    </div>
+    <div class="how-step">
+      <div class="how-number">2</div>
+      <h3>Connect WhatsApp</h3>
+      <p>Paste your Meta API token and phone number ID. Webhooks are configured automatically.</p>
+      <div class="how-code">./deploy.sh</div>
+    </div>
+    <div class="how-step">
+      <div class="how-number">3</div>
+      <h3>Start Supporting</h3>
+      <p>Open your dashboard. Messages flow in. AI handles routine queries. Your team handles the rest.</p>
+      <div class="how-code">open cfwoot.dev</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- COMPARISON -->
+<section id="compare">
+<div class="container">
+  <div class="text-center">
+    <span class="section-tag tag-green">COMPARISON</span>
+    <h2 class="section-title">Why <span class="accent">CFwoot</span> wins</h2>
+    <p class="section-sub mx-auto">Side-by-side with the biggest names in WhatsApp support.</p>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Feature</th><th>DoubleTick</th><th>WATI</th><th class="cfwoot-col">CFwoot</th></tr></thead>
+      <tbody>
+        <tr><td>Monthly Cost</td><td class="c-red">$141+</td><td class="c-red">$59+</td><td class="cfwoot-col">$0</td></tr>
+        <tr><td>Setup Time</td><td>3–5 days</td><td>2–3 days</td><td class="cfwoot-col">5 minutes</td></tr>
+        <tr><td>WhatsApp Business API</td><td class="c-green">✓</td><td class="c-green">✓</td><td class="cfwoot-col c-green">✓</td></tr>
+        <tr><td>Team Inbox</td><td class="c-green">✓</td><td class="c-green">✓</td><td class="cfwoot-col c-green">✓</td></tr>
+        <tr><td>AI Chatbot</td><td class="c-green">✓</td><td class="c-green">✓ (extra)</td><td class="cfwoot-col c-green">✓ included</td></tr>
+        <tr><td>Broadcast Campaigns</td><td class="c-green">✓</td><td class="c-green">✓</td><td class="cfwoot-col c-green">✓</td></tr>
+        <tr><td>WhatsApp Flows</td><td class="c-green">✓</td><td class="c-green">✓</td><td class="cfwoot-col c-green">✓</td></tr>
+        <tr><td>E-commerce Integration</td><td class="c-green">✓</td><td class="c-green">✓</td><td class="cfwoot-col c-green">✓</td></tr>
+        <tr><td>Self-hosted</td><td class="c-red">✗</td><td class="c-red">✗</td><td class="cfwoot-col c-green" style="font-weight:700">✓</td></tr>
+        <tr><td>Data Ownership</td><td class="c-red">✗</td><td class="c-red">✗</td><td class="cfwoot-col c-green" style="font-weight:700">✓</td></tr>
+        <tr><td>Customization</td><td>Limited</td><td>Limited</td><td class="cfwoot-col" style="font-weight:700">Full Control</td></tr>
+      </tbody>
+    </table>
+    <div class="table-note">* You only pay Meta's WhatsApp Business Platform conversation fees (same for everyone)</div>
+  </div>
+</div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials-section">
+<div class="container">
+  <div class="text-center">
+    <span class="section-tag tag-green">TESTIMONIALS</span>
+    <h2 class="section-title">Trusted by businesses worldwide</h2>
+  </div>
+  <div class="test-grid">
+    <div class="test-card">
+      <div class="test-head"><div class="test-avatar ta-g">JS</div><div><div class="test-name">John Smith</div><div class="test-role">CEO, TechStart</div></div></div>
+      <div class="test-stars">★★★★★</div>
+      <p class="test-text">"CFwoot saved us $1,700/year compared to DoubleTick. Same features, zero cost. The self-hosted option gives us complete control over our customer data."</p>
+    </div>
+    <div class="test-card">
+      <div class="test-head"><div class="test-avatar ta-b">MK</div><div><div class="test-name">Maria Kim</div><div class="test-role">Director, ShopNow</div></div></div>
+      <div class="test-stars">★★★★★</div>
+      <p class="test-text">"We migrated from WATI in 5 minutes. The AI chatbot and broadcast features work perfectly. Our team loves the unified inbox."</p>
+    </div>
+    <div class="test-card">
+      <div class="test-head"><div class="test-avatar ta-p">RD</div><div><div class="test-name">Rajesh Dev</div><div class="test-role">Founder, EcomPro</div></div></div>
+      <div class="test-stars">★★★★★</div>
+      <p class="test-text">"The Shopify integration is seamless. We send order updates and recover abandoned carts directly via WhatsApp. Game changer for our revenue."</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- TECH STACK -->
+<section>
+<div class="container">
+  <div class="text-center">
+    <span class="section-tag tag-green">TECH STACK</span>
+    <h2 class="section-title">Built on modern infrastructure</h2>
+    <p class="section-sub mx-auto">Enterprise-grade reliability at zero cost. Leverages Cloudflare's global edge network.</p>
+  </div>
+  <div class="tech-grid">
+    <div class="tech-pill"><div class="tech-pill-icon">☁️</div><h4>Cloudflare Workers</h4><p>Edge compute</p></div>
+    <div class="tech-pill"><div class="tech-pill-icon">🗄️</div><h4>Turso DB</h4><p>Edge SQLite</p></div>
+    <div class="tech-pill"><div class="tech-pill-icon">🔐</div><h4>Better Auth</h4><p>Authentication</p></div>
+    <div class="tech-pill"><div class="tech-pill-icon">⚡</div><h4>Hono</h4><p>Web framework</p></div>
+    <div class="tech-pill"><div class="tech-pill-icon">🎨</div><h4>Vue.js 3</h4><p>Frontend</p></div>
+    <div class="tech-pill"><div class="tech-pill-icon">🔄</div><h4>Durable Objects</h4><p>Real-time sync</p></div>
+  </div>
+</div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+<div class="container">
+  <div class="text-center">
+    <span class="section-tag tag-green">FAQ</span>
+    <h2 class="section-title">Frequently asked questions</h2>
+  </div>
+  <div class="faq-list">
+    <div class="faq-item">
+      <button class="faq-q">Is CFwoot really free?</button>
+      <div class="faq-a">Yes. The platform itself costs $0/month forever. You only pay Meta's standard WhatsApp Business Platform conversation fees (same whether you use DoubleTick, WATI, or CFwoot). There are no hidden charges, no per-seat fees, and no feature gating.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">How does self-hosting work?</button>
+      <div class="faq-a">CFwoot runs on Cloudflare Workers (their free tier handles up to 100K requests/day). You deploy with a single command — no servers to manage. Your data lives in Turso (9GB free). Cloudflare handles scaling, SSL, DDoS protection, and global CDN automatically.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">Can I migrate from DoubleTick or WATI?</button>
+      <div class="faq-a">Yes. Export your contacts and conversation history from your current platform, then import them into CFwoot. The entire migration takes under 5 minutes. We provide a migration script for DoubleTick and WATI exports.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">What WhatsApp features are supported?</button>
+      <div class="faq-a">Everything: text, images, documents, location sharing, contact cards, interactive buttons, list messages, WhatsApp Flows 2.0, and catalog messages. We also support template messages for broadcasts and proactive notifications.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">Is the AI chatbot included?</button>
+      <div class="faq-a">Yes. CFwoot includes a built-in AI layer that handles intent detection, auto-replies, conversation summaries, and smart routing. No extra charges, no API keys needed — it runs on Cloudflare Workers AI within the free tier.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">Can I customize the platform?</button>
+      <div class="faq-a">Completely. CFwoot is open-source (MIT license). Modify the Vue.js dashboard, add new integrations, build custom bots with the no-code flow editor, or extend the API with your own Hono routes. You own the code.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">What about data privacy and GDPR?</button>
+      <div class="faq-a">Your data stays on Cloudflare's infrastructure under YOUR account. We never see it, store it, or sell it. Cloudflare is SOC 2 Type II certified and GDPR compliant. Since you self-host, you have full audit trails and can delete everything instantly.</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="pricing-section">
+<div class="container">
+  <span class="section-tag tag-dark" style="background:rgba(255,255,255,0.1);color:white">PRICING</span>
+  <h2 class="section-title">Stop paying for<br>features you should own</h2>
+  <p class="cta-sub">Join 200+ businesses that switched from DoubleTick &amp; WATI. Deploy in 5 minutes.</p>
+  <div class="cta-code">
+    <div><span class="comment"># Deploy your own WhatsApp platform</span></div>
+    <div>$ git clone https://github.com/satishskid/cfwoot.git</div>
+    <div>$ cd cfwoot && ./setup.sh</div>
+    <div><span class="comment"># Follow the 3 prompts → Done!</span></div>
+  </div>
+  <div class="cta-buttons">
+    <a href="https://github.com/satishskid/cfwoot" class="btn-glow">Get Started Free →</a>
+    <a href="https://github.com/satishskid/cfwoot/issues" class="btn-ghost">Report Issue</a>
+  </div>
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+<div class="container">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#" class="nav-brand" style="display:inline-flex"><div class="nav-logo">💬</div><span class="nav-name" style="color:white">CFwoot</span></a>
+      <p>Open-source WhatsApp customer support platform. Built with ❤️ on Cloudflare.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Product</h4>
+      <a href="#features">Features</a>
+      <a href="#compare">Compare</a>
+      <a href="#pricing-section">Pricing</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <div class="footer-col">
+      <h4>Resources</h4>
+      <a href="https://github.com/satishskid/cfwoot">GitHub</a>
+      <a href="#">Documentation</a>
+      <a href="#">Community</a>
+      <a href="#">Changelog</a>
+    </div>
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+      <a href="#">MIT License</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 CFwoot. All rights reserved.</span>
+    <div style="display:flex;gap:16px"><a href="https://github.com/satishskid/cfwoot">GitHub</a><a href="#">Twitter</a></div>
+  </div>
+</div>
+</footer>
+
+<script>
+// Nav scroll effect
+const nav=document.getElementById('navbar');
+window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>20)});
+
+// FAQ accordion
+document.querySelectorAll('.faq-q').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const item=btn.parentElement;
+    const wasOpen=item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+    if(!wasOpen)item.classList.add('open');
+  });
+});
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const t=document.querySelector(a.getAttribute('href'));
+    if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'})}
+  });
+});
+</script>
+</body>
+</html>
