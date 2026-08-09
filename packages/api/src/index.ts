@@ -14,9 +14,10 @@ import { broadcastRoutes } from "./routes/broadcasts.routes";
 import { ecommerceRoutes } from "./routes/ecommerce.routes";
 import { teamRoutes, slaRoutes } from "./routes/teams.routes";
 import { apiKeyRoutes } from "./routes/api-keys.routes";
-import { webhookRoutes } from "./routes/webhooks.routes";
+import { webhookRoutes, fireWebhooks } from "./routes/webhooks.routes";
 import { customFieldRoutes } from "./routes/custom-fields.routes";
 import { publicRoutes } from "./routes/public.routes";
+import { checkHealth, getMetrics, recordMetric } from "./lib/logger";
 
 export interface Env {
   TURSO_DATABASE_URL: string;
@@ -30,12 +31,19 @@ export interface Env {
   BETTER_AUTH_URL: string;
   ASSETS: R2Bucket;
   ENCRYPTION_SECRET: string;
+  MOCK_MODE?: string;
+  CF_WORKERS_AI_ACCOUNT_ID?: string;
+  CF_WORKERS_AI_API_TOKEN?: string;
 }
 
 const app = new Hono<{ Bindings: Env }>();
 
 // Middleware
 app.use("*", logger());
+app.use("*", async (c, next) => {
+  recordMetric("request");
+  await next();
+});
 app.use(
   "*",
   cors({
@@ -47,7 +55,7 @@ app.use(
 // Public routes
 app.route("/api/auth", authRoutes);
 
-// Internal API routes (auth-required via Better Auth session)
+// Internal API routes
 app.route("/api/v1/conversations", conversationRoutes);
 app.route("/api/v1/contacts", contactRoutes);
 app.route("/api/v1/messages", messageRoutes);
@@ -66,16 +74,24 @@ app.route("/api/v1/custom-fields", customFieldRoutes);
 // Public REST API (API key auth, scoped, rate-limited)
 app.route("/api/v1/public", publicRoutes);
 
-// Health check
-app.get("/health", (c) =>
-  c.json({ status: "ok", timestamp: new Date().toISOString() })
-);
+// Health check with dependency status
+app.get("/health", async (c) => {
+  const health = await checkHealth(c.env);
+  const statusCode = health.status === "healthy" ? 200 : health.status === "degraded" ? 200 : 503;
+  return c.json(health, statusCode);
+});
+
+// Metrics endpoint
+app.get("/metrics", (c) => {
+  return c.json(getMetrics());
+});
 
 // 404 handler
 app.notFound((c) => c.json({ error: "Not found" }, 404));
 
 // Error handler
 app.onError((err, c) => {
+  recordMetric("error");
   console.error("API Error:", err);
   return c.json({ error: "Internal server error" }, 500);
 });

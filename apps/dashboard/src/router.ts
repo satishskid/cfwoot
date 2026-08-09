@@ -22,7 +22,6 @@ const router = createRouter({
       component: () => import("./views/Conversation.vue"),
       meta: { requiresAuth: true },
     },
-    // AI routes
     {
       path: "/ai/knowledge",
       name: "KnowledgeBase",
@@ -35,39 +34,46 @@ const router = createRouter({
       component: () => import("./views/ai/AISettings.vue"),
       meta: { requiresAuth: true },
     },
-    // Flows routes
     {
       path: "/flows",
       name: "FlowList",
       component: () => import("./views/flows/FlowList.vue"),
       meta: { requiresAuth: true },
     },
-    // Bot routes
     {
       path: "/bots",
       name: "BotList",
       component: () => import("./views/bots/BotList.vue"),
       meta: { requiresAuth: true },
     },
-    // Broadcast routes
     {
       path: "/broadcasts",
       name: "BroadcastList",
       component: () => import("./views/broadcasts/BroadcastList.vue"),
       meta: { requiresAuth: true },
     },
-    // E-commerce routes
     {
       path: "/ecommerce",
       name: "EcommerceDashboard",
       component: () => import("./views/ecommerce/EcommerceDashboard.vue"),
       meta: { requiresAuth: true },
     },
-    // Settings routes
     {
       path: "/settings/teams",
       name: "TeamSettings",
       component: () => import("./views/settings/TeamSettings.vue"),
+      meta: { requiresAuth: true },
+    },
+    {
+      path: "/settings",
+      name: "Settings",
+      component: () => import("./views/settings/SettingsPage.vue"),
+      meta: { requiresAuth: true },
+    },
+    {
+      path: "/contacts",
+      name: "Contacts",
+      component: () => import("./views/contacts/ContactList.vue"),
       meta: { requiresAuth: true },
     },
   ],
