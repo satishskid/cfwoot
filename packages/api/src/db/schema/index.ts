@@ -14,3 +14,10 @@ export { botFlows, botExecutions } from "./bots";
 export { broadcastCampaigns, broadcastRecipients } from "./broadcasts";
 export { ecommerceStores, ecommerceProducts, ecommerceOrders } from "./ecommerce";
 export { teams, teamMembers, slaPolicies, slaBreaches } from "./teams";
+export {
+  apiKeys,
+  webhookEndpoints,
+  webhookDeliveryLogs,
+  contactCustomFields,
+  contactCustomValues,
+} from "./webhooks";
